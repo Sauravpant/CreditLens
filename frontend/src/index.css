@@ -1,1 +1,67 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Consolas, monospace;
+
+  --color-salt-50: #fcfbf8;
+  --color-salt-100: #f6f4ef;
+  --color-salt-200: #ebe7de;
+  --color-salt-300: #dcd6ca;
+  --color-salt-400: #b9b1a2;
+  --color-salt-500: #736c5f;
+
+  --color-ink-500: #5b5f73;
+  --color-ink-700: #33364a;
+  --color-ink-900: #16182b;
+
+  --animate-rise: rise 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer base {
+  html {
+    @apply bg-salt-100 text-ink-900 antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  ::selection {
+    @apply bg-indigo-100 text-indigo-950;
+  }
+
+  input[type="number"] {
+    appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--color-indigo-600);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
