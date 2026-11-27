@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router";
 import { api } from "../lib/api";
 
@@ -42,10 +42,10 @@ export function Layout() {
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="sticky top-0 z-20 border-b border-salt-200 bg-salt-50/95 backdrop-blur-sm">
-        <div className="mx-auto flex h-14 max-w-7xl items-center gap-8 px-6">
+        <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4 sm:gap-8 sm:px-6">
           <NavLink to="/" className="flex items-center gap-2.5">
             <span className="grid size-7 place-items-center rounded-md bg-indigo-700 text-xs font-bold text-white">CL</span>
-            <span className="text-[15px] font-semibold tracking-tight">CreditLens</span>
+            <span className="hidden text-[15px] font-semibold tracking-tight min-[400px]:inline">CreditLens</span>
           </NavLink>
           <nav className="flex h-full gap-1" aria-label="Main">
             {NAV.map((item) => (
@@ -54,9 +54,9 @@ export function Layout() {
                 to={item.to}
                 end
                 className={({ isActive }) =>
-                  `relative flex items-center px-3 text-sm transition-colors ${
+                  `relative flex items-center px-2.5 text-sm sm:px-3 transition-colors ${
                     isActive
-                      ? "font-medium text-indigo-800 after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full after:bg-indigo-700"
+                      ? "font-medium text-indigo-800 after:absolute after:inset-x-2.5 after:bottom-0 sm:after:inset-x-3 after:h-0.5 after:rounded-full after:bg-indigo-700"
                       : "text-ink-500 hover:text-ink-900"
                   }`
                 }
@@ -65,14 +65,16 @@ export function Layout() {
               </NavLink>
             ))}
           </nav>
-          <div className="ml-auto flex items-center gap-2 text-xs text-ink-500" role="status">
+          <div className="ml-auto flex items-center gap-2 text-xs text-ink-500" role="status" aria-label={status.text}>
             <span className={`size-2 rounded-full ${status.dot}`} />
-            {status.text}
+            <span className="hidden sm:inline">{status.text}</span>
           </div>
         </div>
       </header>
-      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-6 py-10">
-        <Outlet />
+      <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-4 py-8 sm:px-6 sm:py-10">
+        <Suspense>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );

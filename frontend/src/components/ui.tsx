@@ -8,7 +8,7 @@ export function Card({ title, description, action, children, className = "" }: {
   className?: string;
 }) {
   return (
-    <section className={`rounded-xl border border-salt-200 bg-white ${className}`}>
+    <section className={`flex flex-col rounded-xl border border-salt-200 bg-white ${className}`}>
       {title && (
         <header className="flex items-start justify-between gap-4 border-b border-salt-200 px-5 py-4">
           <div>
@@ -18,7 +18,7 @@ export function Card({ title, description, action, children, className = "" }: {
           {action}
         </header>
       )}
-      <div className="p-5">{children}</div>
+      <div className="flex-1 p-5">{children}</div>
     </section>
   );
 }
