@@ -36,7 +36,6 @@ Numeric = float | np.ndarray | pd.Series
 
 
 def emi(principal: Numeric, annual_rate_pct: Numeric, months: Numeric) -> Numeric:
-    """Monthly instalment of an amortising loan. Works on scalars and arrays."""
     r = np.asarray(annual_rate_pct) / 1200
     return principal * r / (1 - (1 + r) ** -np.asarray(months))
 
@@ -48,7 +47,6 @@ def debt_to_income(
     loan_purpose: str | pd.Series,
     existing_loans: Numeric,
 ) -> Numeric:
-    """Monthly debt payments (existing + new loan) divided by monthly income."""
     if isinstance(loan_purpose, pd.Series):
         months = loan_purpose.map(TERM_MONTHS)
     else:
@@ -58,7 +56,6 @@ def debt_to_income(
 
 
 def _province_weights() -> dict[int, float]:
-    """Province sampling weights from NRB loan distribution."""
     refs = json.loads(REFERENCES_PATH.read_text())
     by_province = refs["loans_by_province_npr_billion"]["by_province"]
     total = sum(by_province.values())
@@ -66,12 +63,10 @@ def _province_weights() -> dict[int, float]:
 
 
 def _choice(rng: np.random.Generator, weights: dict, n: int) -> np.ndarray:
-    """Sample n keys from a {value: weight} dict."""
     return rng.choice(list(weights), size=n, p=list(weights.values()))
 
 
 def _applicants(rng: np.random.Generator, n: int) -> pd.DataFrame:
-    """Demographic, employment and credit-history fields."""
     df = pd.DataFrame({
         "age": np.clip(rng.normal(35, 9, n), 20, 65).astype(int),
         "gender": rng.choice(["M", "F"], size=n, p=[0.6, 0.4]),
@@ -88,7 +83,6 @@ def _applicants(rng: np.random.Generator, n: int) -> pd.DataFrame:
 
 
 def _loans(rng: np.random.Generator, df: pd.DataFrame) -> pd.DataFrame:
-    """Loan purpose, size, rate, collateral and DTI."""
     n = len(df)
     purpose = _choice(rng, PURPOSE_WEIGHTS, n)
     agri_override = (df["employment_type"] == "Agriculture") & (rng.random(n) < AGRI_WORKER_AGRI_LOAN_SHARE)
@@ -109,7 +103,6 @@ def _loans(rng: np.random.Generator, df: pd.DataFrame) -> pd.DataFrame:
 
 
 def _risk_logit(df: pd.DataFrame) -> np.ndarray:
-    """Log-odds of default before the intercept."""
     return (
         2.5 * (df["debt_to_income"] - 0.4)
         - 0.6 * np.log(df["income_monthly"] / 30_000)
@@ -123,7 +116,6 @@ def _risk_logit(df: pd.DataFrame) -> np.ndarray:
 
 
 def _calibrated_intercept(logit: np.ndarray, target: float) -> float:
-    """Bisect for the intercept that makes the mean default probability hit target."""
     lo, hi = -20.0, 20.0
     for _ in range(60):
         mid = (lo + hi) / 2
@@ -135,7 +127,6 @@ def _calibrated_intercept(logit: np.ndarray, target: float) -> float:
 
 
 def generate(n: int = N_ROWS, seed: int = SEED) -> pd.DataFrame:
-    """Build the full dataset."""
     rng = np.random.default_rng(seed)
     df = _loans(rng, _applicants(rng, n))
     logit = _risk_logit(df)
@@ -150,7 +141,6 @@ def generate(n: int = N_ROWS, seed: int = SEED) -> pd.DataFrame:
 
 
 def sanity_check(df: pd.DataFrame) -> None:
-    """Assert the correlations PROJECT.md requires are present in the data."""
     rate = df["defaulted"].mean()
     by_emp = df.groupby("employment_type")["defaulted"].mean()
     by_purpose = df.groupby("loan_purpose")["defaulted"].mean()
