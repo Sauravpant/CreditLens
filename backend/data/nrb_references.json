@@ -1,0 +1,70 @@
+{
+  "accessed": "2026-11-27",
+  "note": "Figures are from Nepal Rastra Bank (NRB) publications, or from press reports that cite NRB data. Where sources disagree, the range is recorded.",
+  "npl_ratio_commercial_banks_pct": {
+    "fy_2021_22": 1.20,
+    "fy_2023_24": 3.76,
+    "fy_2024_25": 4.44,
+    "fy_2025_26": 5.40,
+    "fy_2025_26_range": [5.35, 5.44],
+    "lowest_bank_fy_2025_26": 0.49,
+    "highest_bank_fy_2025_26": 15.55,
+    "sources": [
+      "https://english.nepalnews.com/?p=219867",
+      "https://kathmandupost.com/money/2026/08/17/commercial-banks-post-32-percent-profit-surge-despite-weak-credit-demand",
+      "https://myrepublica.nagariknetwork.com/news/commercial-banks-non-performing-loan-rises-to-544-as-individual-bank-faces--83-25.html"
+    ]
+  },
+  "sector": {
+    "agriculture_share_of_lending_pct": 6.44,
+    "consumable_share_of_lending_pct": 19.36,
+    "agriculture_share_of_npl_pct": 23.5,
+    "construction_share_of_npl_pct": 10.5,
+    "wholesale_retail_share_of_npl_pct": 10.0,
+    "period": "Lending shares FY 2024/25; NPL shares mid-April 2026",
+    "sources": [
+      "https://www.nrb.org.np/fisd/financial-institutions-supervision-report-fy-2024-25/",
+      "https://kathmandupost.com/money/2026/07/03/priority-lending-is-dragging-down-nepali-banks-into-huge-bad-debt",
+      "https://ekantipur.com/business/2026/07/03/en/extremely-bad-loans-in-the-areas-designated-by-the-national-bank-26-22.html"
+    ]
+  },
+  "weighted_avg_lending_rate_commercial_banks_pct": {
+    "mid_feb_2025": 8.55,
+    "oct_2025": 7.66,
+    "jan_2026": 7.26,
+    "mid_jun_2026": 6.64,
+    "sources": [
+      "https://myrepublica.nagariknetwork.com/amp/news/commercial-banks-weighted-average-interest-rate-drops-by-855-percent-18-98.html",
+      "https://www.nrb.org.np/red/current-macroeconomic-and-financial-situation-english-based-on-two-months-data-of-2025-26",
+      "https://www.nrb.org.np/red/current-macroeconomic-and-financial-situation-english-based-on-eleven-months-data-of-2025-26/current-macroeconomic-and-financial-situation-english-based-on-11-month-data-of-2025-26-2/"
+    ]
+  },
+  "loans_by_province_npr_billion": {
+    "period": "mid-July 2025",
+    "total": 5586,
+    "by_province": {
+      "1": 613,
+      "2": 495,
+      "3": 3323,
+      "4": 356,
+      "5": 577,
+      "6": 62.12,
+      "7": 157
+    },
+    "province_names": {
+      "1": "Koshi",
+      "2": "Madhes",
+      "3": "Bagmati",
+      "4": "Gandaki",
+      "5": "Lumbini",
+      "6": "Karnali",
+      "7": "Sudurpashchim"
+    },
+    "caveats": "Lumbini is derived from its reported 10.33% share of the total. Sources report Karnali's figure in inconsistent units; Rs 62.12 billion is used here.",
+    "sources": [
+      "https://www.b360nepal.com/detail/27383/bagmati-province-accounts-for-658-pc-of-deposits-and-595-pc-of-loans-nrb-report",
+      "https://myrepublica.nagariknetwork.com/news/bagmati-records-highest-share-of-deposits-and-loans-of-bfis-53-24.html",
+      "https://newbusinessage.com/news/46843/bank-deposits-and-loans-concentrated-in-bagmati-province-nrb-report"
+    ]
+  }
+}
