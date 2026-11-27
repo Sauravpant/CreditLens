@@ -1,0 +1,147 @@
+
+# ==========================================
+# PYTHON
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+
+# ==========================================
+# VIRTUAL ENVIRONMENTS
+# ==========================================
+.venv/
+venv/
+env/
+ENV/
+virtualenv/
+
+# ==========================================
+# ENVIRONMENT VARIABLES & SECRETS
+# ==========================================
+.env
+.env.*
+!.env.example
+!.env.template
+
+# ==========================================
+# FASTAPI / UVICORN
+# ==========================================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+.pyre/
+.pytype/
+
+# ==========================================
+# MACHINE LEARNING / DATASETS
+# ==========================================
+
+# Datasets
+data/
+datasets/
+raw_data/
+processed_data/
+external_data/
+
+# Model artifacts
+models/
+artifacts/
+checkpoints/
+*.model
+*.ubj
+*.json
+*.bin
+*.pkl
+*.pickle
+*.joblib
+*.h5
+*.keras
+*.onnx
+
+# ML experiment tracking
+mlruns/
+mlartifacts/
+wandb/
+runs/
+lightning_logs/
+tensorboard/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# ==========================================
+# LOGS
+# ==========================================
+logs/
+*.log
+*.log.*
+log/
+
+# ==========================================
+# DATABASE
+# ==========================================
+*.db
+*.sqlite
+*.sqlite3
+
+# ==========================================
+# IDE / EDITORS
+# ==========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ==========================================
+# TESTING
+# ==========================================
+.pytest_cache/
+.hypothesis/
+test-results/
+coverage.xml
+
+# ==========================================
+# DOCKER
+# ==========================================
+.docker/
+
+# ==========================================
+# TEMPORARY FILES
+# ==========================================
+tmp/
+temp/
+*.tmp
+*.bak
+*.orig
+.cache/
+
+# ==========================================
+# OS
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
