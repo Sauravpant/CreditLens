@@ -15,6 +15,10 @@ def _require_model(request: Request) -> None:
         raise HTTPException(status_code=503, detail="Model not loaded. Run `make train` and restart the server.")
 
 
+def _artifact(name: str) -> dict | list:
+    return json.loads((ARTIFACTS_DIR / name).read_text())
+
+
 @router.post("/predict", response_model=PredictionResponse)
 def predict_risk(application: LoanApplication, request: Request) -> dict:
     _require_model(request)
@@ -30,6 +34,10 @@ def model_info(request: Request) -> dict:
     return {
         "best_model": summary["best_model"],
         "best_params": summary["best_params"],
+        "cv_auc": summary["cv_auc"],
+        "train_metrics": summary["train_metrics"],
         "test_metrics": summary["test_metrics"],
-        "comparison": json.loads((ARTIFACTS_DIR / "comparison.json").read_text()),
+        "confusion_matrix": _artifact("metrics.json")["confusion_matrix"],
+        "comparison": _artifact("comparison.json"),
+        "global_importance": _artifact("global_importance.json"),
     }

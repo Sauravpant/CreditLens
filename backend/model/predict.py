@@ -26,7 +26,7 @@ FEATURE_LABELS = {
     "existing_loans": "number of existing loans",
     "debt_to_income": "debt-to-income ratio",
     "has_collateral": "collateral",
-    "credit_history_months": "credit history length (months)",
+    "credit_history_months": "credit history length",
     "province": "province",
 }
 
@@ -53,8 +53,8 @@ def to_features(applicant: dict) -> pd.DataFrame:
     return pd.DataFrame([row])[FEATURES]
 
 
-def _top_factors(contributions: pd.Series) -> list[dict]:
-    top = contributions.reindex(contributions.abs().sort_values(ascending=False).index)[:TOP_N_FACTORS]
+def _factors(contributions: pd.Series, limit: int | None = None) -> list[dict]:
+    top = contributions.reindex(contributions.abs().sort_values(ascending=False).index)[:limit]
     return [
         {
             "feature": name,
@@ -65,9 +65,26 @@ def _top_factors(contributions: pd.Series) -> list[dict]:
     ]
 
 
+def _display(feature: str, value: object) -> str:
+    if feature == "has_collateral":
+        return "provided" if value else "none"
+    if feature == "interest_rate":
+        return f"{float(value):g}%"
+    if feature == "debt_to_income":
+        return f"{float(value):.0%}"
+    if feature in ("income_monthly", "loan_amount"):
+        return f"NPR {float(value):,.0f}"
+    if feature in ("credit_history_months", "employment_years"):
+        return f"{value} {'months' if feature == 'credit_history_months' else 'years'}"
+    return str(value)
+
+
 def _explanation(level: str, factors: list[dict], features: pd.Series) -> str:
-    up = [f"{FEATURE_LABELS[f['feature']]} ({features[f['feature']]})" for f in factors if f["impact"] > 0]
-    down = [f"{FEATURE_LABELS[f['feature']]} ({features[f['feature']]})" for f in factors if f["impact"] <= 0]
+    def describe(f: dict) -> str:
+        return f"{FEATURE_LABELS[f['feature']]} ({_display(f['feature'], features[f['feature']])})"
+
+    up = [describe(f) for f in factors if f["impact"] > 0]
+    down = [describe(f) for f in factors if f["impact"] <= 0]
     parts = [f"{level.capitalize()} risk."]
     if up:
         parts.append(f"Risk is raised mainly by {' and '.join(up)}.")
@@ -81,11 +98,14 @@ def predict(applicant: dict) -> dict:
     features = to_features(applicant)
     score = float(pipeline.predict_proba(features)[0, 1])
     level = risk_level(score)
-    factors = _top_factors(explain(explainer, pipeline, features).iloc[0])
+    contributions = explain(explainer, pipeline, features).iloc[0]
+    factors = _factors(contributions, TOP_N_FACTORS)
     return {
         "risk_score": round(score, 4),
         "risk_level": level,
         "top_factors": factors,
+        "contributions": _factors(contributions),
+        "debt_to_income": float(features.iloc[0]["debt_to_income"]),
         "explanation": _explanation(level, factors, features.iloc[0]),
         "model_used": summary["model_used"],
     }
@@ -105,7 +125,7 @@ if __name__ == "__main__":
     risky_result, safe_result = predict(risky), predict(safe)
     for result in (risky_result, safe_result):
         print(json.dumps(result, indent=2))
-        assert set(result) == {"risk_score", "risk_level", "top_factors", "explanation", "model_used"}
+        assert set(result) == {"risk_score", "risk_level", "top_factors", "contributions", "debt_to_income", "explanation", "model_used"}
         assert 0 <= result["risk_score"] <= 1 and len(result["top_factors"]) == TOP_N_FACTORS
     assert risky_result["risk_score"] > safe_result["risk_score"]
     print("predict() self-check passed")

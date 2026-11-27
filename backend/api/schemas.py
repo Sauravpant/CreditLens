@@ -41,6 +41,8 @@ class PredictionResponse(BaseModel):
     risk_score: float
     risk_level: Literal["LOW", "MEDIUM", "HIGH"]
     top_factors: list[TopFactor]
+    contributions: list[TopFactor]
+    debt_to_income: float
     explanation: str
     model_used: str
 
@@ -48,8 +50,12 @@ class PredictionResponse(BaseModel):
 class ModelInfo(BaseModel):
     best_model: str
     best_params: dict
+    cv_auc: float
+    train_metrics: dict
     test_metrics: dict
+    confusion_matrix: list[list[int]]
     comparison: list[dict]
+    global_importance: dict[str, float]
 
 
 class ChatRequest(BaseModel):

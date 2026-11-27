@@ -52,8 +52,7 @@ htmlcov/
 # MACHINE LEARNING / DATASETS
 # ==========================================
 
-# Datasets
-data/
+# Datasets (generated CSV only; data/ holds source code and docs)
 datasets/
 raw_data/
 processed_data/
@@ -61,11 +60,10 @@ external_data/
 
 # Model artifacts
 models/
-artifacts/
+model/artifacts/
 checkpoints/
 *.model
 *.ubj
-*.json
 *.bin
 *.pkl
 *.pickle
@@ -145,3 +143,8 @@ temp/
 .Trashes
 ehthumbs.db
 Desktop.ini
+
+
+PROJECT.md
+PLAN.md
+TRACKER.md
